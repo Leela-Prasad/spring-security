@@ -19,7 +19,7 @@
 	  	 		<p>Invalid UserName or Password</p>
 	  	 	</c:if>
 	  	 		  		
-		  	<label>Username:</label> <input type="text" name="vppUsername" value=""/>
+		  	<label>Username:</label> <input type="text" name="vppUsername" value="${param.username}"/>
 		  	<label>Password:</label> <input type="password" name="vppPassword"/>
 		   
 	        <input type="submit" value="Login"/>

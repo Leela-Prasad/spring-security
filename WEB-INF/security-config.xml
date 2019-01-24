@@ -8,6 +8,8 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/security 
         http://www.springframework.org/schema/security/spring-security.xsd">
+        
+    <beans:bean id="authFailureHandler" class="com.virtualpairprogrammers.security.UsernameAndPasswordFailureHandler" autowire="byType"/>    
      
     <http pattern="/styles.css" security="none" />
     <http pattern="/css/**" security="none" /> <!-- To allow users to access all css resources -->
@@ -22,7 +24,9 @@
 					username-parameter="vppUsername" 
 					password-parameter="vppPassword" 
 					login-page="/login.jsp" 
-					authentication-failure-url="/login.jsp?error"/>
+					authentication-failure-handler-ref="authFailureHandler"/> 
+					<!-- authentication-failure-url="/login.jsp?error"/> -->
+					 
 					
 		<logout logout-success-url="/viewAllBooks.do" />			
 	</http>
