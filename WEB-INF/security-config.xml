@@ -8,10 +8,23 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/security 
         http://www.springframework.org/schema/security/spring-security.xsd">
+     
+    <http pattern="/styles.css" security="none" />
+    <http pattern="/css/**" security="none" /> <!-- To allow users to access all css resources -->
        
 	<http>
+	
+		<csrf disabled="true" />
+		<intercept-url pattern="/login.jsp" access="permitAll" />
 		<intercept-url pattern="/addNewBook.do" access="hasRole('ROLE_ADMIN')" />
-		<http-basic />
+		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		<form-login login-processing-url="/performLogin" 
+					username-parameter="vppUsername" 
+					password-parameter="vppPassword" 
+					login-page="/login.jsp" 
+					authentication-failure-url="/login.jsp?error"/>
+					
+		<logout logout-success-url="/viewAllBooks.do" />			
 	</http>
 	
 	<authentication-manager>

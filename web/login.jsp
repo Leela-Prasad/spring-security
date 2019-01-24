@@ -14,7 +14,11 @@
 	  	  <c:url value="/performLogin" var="loginUrl"/>
 	  
 		  <form action="${loginUrl}" method="post">
-		  		  		
+		  
+		  	<c:if test="${param.error != null}">
+	  	 		<p>Invalid UserName or Password</p>
+	  	 	</c:if>
+	  	 		  		
 		  	<label>Username:</label> <input type="text" name="vppUsername" value=""/>
 		  	<label>Password:</label> <input type="password" name="vppPassword"/>
 		   
