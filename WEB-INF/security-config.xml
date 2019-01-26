@@ -46,7 +46,9 @@
 	
 	<authentication-manager>
 		<authentication-provider>
-			<jdbc-user-service data-source-ref="derbyDatasource" />
+			<jdbc-user-service data-source-ref="derbyDatasource"  
+							users-by-username-query="select username,password,true from tbl_users where username=?"
+							authorities-by-username-query="select username,role from tbl_roles where username=?"/>
 		</authentication-provider>
 	</authentication-manager>
 </beans:beans>	
