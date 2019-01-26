@@ -15,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -35,6 +36,9 @@ public class CreateAccountController {
 	@Qualifier("vppAuthenticator")
 	private AuthenticationManager authManager;
 	
+	@Autowired
+	private BCryptPasswordEncoder bcryptEncoder;
+	
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView showForm() {
 		return new ModelAndView("create-account","userFormObject", new UserFormObject());
@@ -47,7 +51,9 @@ public class CreateAccountController {
 		
 		List<GrantedAuthority> roles = new ArrayList<>();
 		roles.add(new SimpleGrantedAuthority("ROLE_USER"));
-		User user = new User(newUser.getUsername(),newUser.getPassword(),roles);
+		
+		String encodedPassword = bcryptEncoder.encode(newUser.getPassword());
+		User user = new User(newUser.getUsername(),encodedPassword,roles);
 		try {
 			userManager.createUser(user);
 		}catch(DuplicateKeyException e) {
@@ -55,7 +61,10 @@ public class CreateAccountController {
 			return new ModelAndView("create-account","userFormObject", newUser);
 		}
 		
-		Authentication authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword());
+		// Here we have to give the normal plain password so that 
+		// authManager.authenticate will do the bcrypt to compare against database.
+		Authentication authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(),newUser.getPassword());
+		//This line is similar to <authentication-manager
 		Authentication credentials = authManager.authenticate(authenticationToken);
 		if(credentials.isAuthenticated()) {
 			//authManager.authenticate will generate new credentials which needs to 
