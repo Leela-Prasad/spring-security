@@ -13,5 +13,6 @@
 		<li><a href='addNewBook.do'>Add a New Book</a></li>
 		<li><a href='<c:url value="logout"/>'>Logout</a></li>  <!--  In spring by default /logout url is defined for logout we can tweak this
 																	logout tag in the configuration -->
+		<li><a href='createAccount.do'>Create Account</a></li>															
 	</ul>
 </div>

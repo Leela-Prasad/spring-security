@@ -17,7 +17,7 @@
 	         <label>Enter Username</label><form:input path="username"/>	  
 	                                      <form:errors path="username" cssClass="error"/>  
 	                    
-	         <label>Enter Password</label> <form:input path="password"/>
+	         <label>Enter Password</label> <form:password path="password"/>
 	         		                    <form:errors path="password" cssClass="error"/>  
 	
 	         <input type="submit" value="Create New Account"/>
