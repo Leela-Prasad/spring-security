@@ -78,6 +78,10 @@
 	   			<filename name="*.*"/>
 	   	  </webinf>
 	   	
+	   	<classes dir="${src}">
+	   		 <filename name="log4j.properties"/>	
+	   	</classes>
+	   	
 		  <fileset dir="${html}"/> <!-- html/jsp files -->
 	   </war>
 	</target>
