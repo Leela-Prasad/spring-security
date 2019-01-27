@@ -19,8 +19,6 @@
     	<beans:property name="url" value="jdbc:derby://localhost/MyDB2" />
     </beans:bean>
    
-   <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-   
    <!--  <beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
     	<beans:property name="dataSource" ref="derbyDatasource" />
     </beans:bean>  
@@ -49,10 +47,10 @@
 	
 	<authentication-manager alias="vppAuthenticator">
 		<authentication-provider>
-			<!-- This will authenticate users with their bcrypt encoded passwords, 
-			     so we need to encode with bcrypt before saving to datastore -->
-			<!-- <password-encoder hash="bcrypt" />  -->
-			<password-encoder ref="bcryptEncoder" />
+			<password-encoder hash="sha-256">
+				<!-- <salt-source system-wide=":randomsalt"/> -->
+				<salt-source user-property="username"/>
+			</password-encoder>
 			
 			<jdbc-user-service data-source-ref="derbyDatasource" />
 		</authentication-provider>

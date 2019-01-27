@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,8 +37,8 @@ public class CreateAccountController {
 	@Qualifier("vppAuthenticator")
 	private AuthenticationManager authManager;
 	
-	@Autowired
-	private BCryptPasswordEncoder bcryptEncoder;
+	/*@Autowired
+	private BCryptPasswordEncoder bcryptEncoder;*/
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView showForm() {
@@ -52,7 +53,10 @@ public class CreateAccountController {
 		List<GrantedAuthority> roles = new ArrayList<>();
 		roles.add(new SimpleGrantedAuthority("ROLE_USER"));
 		
-		String encodedPassword = bcryptEncoder.encode(newUser.getPassword());
+		//String encodedPassword = bcryptEncoder.encode(newUser.getPassword());
+		ShaPasswordEncoder shaEncoder = new ShaPasswordEncoder(256);
+		/*String encodedPassword = shaEncoder.encodePassword(newUser.getPassword(), ":randomsalt");*/ 
+		String encodedPassword = shaEncoder.encodePassword(newUser.getPassword(), newUser.getUsername());
 		User user = new User(newUser.getUsername(),encodedPassword,roles);
 		try {
 			userManager.createUser(user);
