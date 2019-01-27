@@ -29,7 +29,7 @@
     <http pattern="/styles.css" security="none" />
     <http pattern="/css/**" security="none" /> <!-- To allow users to access all css resources -->
        
-	<http>
+	<http authentication-manager-ref="vppAuthenticator">
 		<intercept-url pattern="/login.jsp" access="permitAll" />
 		<intercept-url pattern="/createAccount.do" access="permitAll" />
 		<intercept-url pattern="/addNewBook.do" access="hasRole('ROLE_ADMIN')" />
@@ -45,7 +45,7 @@
 		<logout logout-success-url="/viewAllBooks.do" />			
 	</http>
 	
-	<authentication-manager alias="vppAuthenticator">
+	<authentication-manager id="vppAuthenticator">
 		<authentication-provider>
 			<!-- This will authenticate users with their bcrypt encoded passwords, 
 			     so we need to encode with bcrypt before saving to datastore -->
