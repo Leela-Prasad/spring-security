@@ -27,6 +27,10 @@ java org.apache.derby.tools.ij
 connect 'jdbc:derby:MyDB;create=true';
 connect 'jdbc:derby://localhost/MyDB2';
 
+keytool -genkey -alias MyKey -keyalg RSA -keystore rac.keystore
+
+Warning:
+The JKS keystore uses a proprietary format. It is recommended to migrate to PKCS12 which is an industry standard format using "keytool -importkeystore -srckeystore rac.keystore -destkeystore rac.keystore -deststoretype pkcs12".
 
 
 drop table authorities;

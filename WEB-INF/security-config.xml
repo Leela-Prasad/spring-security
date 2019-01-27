@@ -30,6 +30,8 @@
     <http pattern="/css/**" security="none" /> <!-- To allow users to access all css resources -->
        
 	<http authentication-manager-ref="vppAuthenticator">
+		<intercept-url pattern="/**" requires-channel="https"/>
+		
 		<intercept-url pattern="/login.jsp" access="permitAll" />
 		<intercept-url pattern="/createAccount.do" access="permitAll" />
 		<intercept-url pattern="/addNewBook.do" access="hasRole('ROLE_ADMIN')" />
